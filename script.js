@@ -55,8 +55,6 @@ var fileList = function(dir){
 }
 //Handles file click
 var fileClick = function(name) {
-    //electron's built in shell api
-    var shell = require('electron').shell;
     //So far only logic for file clicking is enabled, not for folders
     if (fse.statSync(currentDir + name).isFile()) {
         //Opens item with default program
