@@ -1,0 +1,25 @@
+{
+  "name": "MaterialExplorer",
+  "version": "v0.1.0",
+  "description": "Flat, modern file explorer.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/atf1999/MaterialExplorer"
+  },
+  "keywords": [
+    "file",
+    "explorer",
+    "manager"
+  ],
+  "author": "atf1999, ErikBoesen",
+  "license": "ISC",
+  "devDependencies": {
+    "fs-extra": "^0.30.0",
+    "electron-prebuilt": "^1.2.7"
+  }
+}
