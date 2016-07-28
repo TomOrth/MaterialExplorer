@@ -4,8 +4,7 @@
   "description": "Flat, modern file explorer.",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -17,7 +16,7 @@
     "manager"
   ],
   "author": "atf1999, ErikBoesen",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "fs-extra": "^0.30.0",
     "electron-prebuilt": "^1.2.7"

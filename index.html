@@ -2,34 +2,45 @@
 <html>
 
 <head>
+    <!-- TODO: Replace this title with dir name or at least "Files" or something relevant. -->
     <title>Material Explorer</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/pills.min.css"/>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- TODO: Cut pills. Not really necessary. -->
+    <link rel="stylesheet" href="css/pills.min.css">
 </head>
 
-<body onload="init()">
+<body>
     <header>
-      <div class="wrap">
-        <span id="headerTitle">Material Explorer</span>
-      </div>
+        <div class="wrap">
+            <!-- TODO: Replace this with the name of the directory. There's no reason
+                the name of the app needs to be here statically. Also, span? Really? -->
+            <span id="headerTitle">Material Explorer</span>
+        </div>
     </header>
+    <!-- "Row," while technically correct, is not the most apt description for this div.
+            TODO: Change this to something better. -->
     <div class="row">
         <div class="column one-third">
             <ul id="bookmarks">
-              
+                <!-- TODO: Replace this with file information viewer or something of the like. Bookmarks shouldn't be this prevalent IMO. -->
             </ul>
         </div>
         <div class="column two-thirds">
             <table>
-               <tbody id="files">
-                  <tr class="titles center">
-                    <td>File/Folder name</td>
-                    <td>File size</td>
-                    <td>Date Modified</td>
-                  </tr>
-               </tbody> 
+                <tbody id="files">
+                    <!-- TODO: USING CENTER CLASSES ON THINGS IS A TERRIBLE TERRIBLE
+                        TERRIBLE TERRIBLE TERRIBLE TERRIBLE TERRIBLE TERRIBLE TERRIBLE
+                        TERRIBLE THING TO DO. Fix. -->
+                    <!-- Also this should be in a <thead>. -->
+                    <tr class="titles center">
+                        <td>File/Folder name</td>
+                        <td>File size</td>
+                        <td>Date Modified</td>
+                    </tr>
+                </tbody>
             </table>
-        </div>  
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 
