@@ -31,7 +31,7 @@ function fileList(dir) {
         pg.title.innerHTML = dir;
         pg.header.innerHTML = dir;
         files.innerHTML = '';
-		for (var i = 0; i < file.length; ++i) if (!pg.settings.showHidden && file[i][0] === '.') {
+		for (var i = 0; i < file.length; ++i) /*if (pg.settings.showHidden || file[i][0] === '.') {*/ {
 			// Object of fileTable elements.
 			var fileTable = {
 				tr: document.createElement('tr'),
@@ -69,21 +69,33 @@ function fileList(dir) {
 
 // Handles file click.
 onclick = function(e) {
+    console.log(e.target);
     // Did user click on a file?
-    if (e.target.parentNode.tagName === 'TBODY' || e.target.tagName === 'IMG') {
+    if (e.target.id === 'settings-icon') {
+        if (pg.settings.pane.style.display === 'none') {
+            pg.settings.pane.style.display = 'block';
+        } else {
+            pg.settings.pane.style.display = 'none';
+        }
+    } else if (e.target.parentNode.tagName === 'TBODY' || e.target.tagName === 'IMG') {
+        // Get the name of the file/folder they clicked on.
         var name = (e.target.tagName === 'IMG') ? e.target.parentNode.nextSibling.innerHTML : e.target.parentNode.childNodes[1].innerHTML;
-        // So far only logic for file clicking is enabled, not for folders
-        // TODO: Allow movement between directories. Shouldn't be hard.
+        // If user clicked on a file
     	if (fse.statSync(currentDir + name).isFile()) {
-    		// Opens item with default application.
+    		// Open item with default application.
     		shell.openItem(currentDir + name);
-    	} else {
+    	} else { // If user clicked on a folder
+            // Add that folder's name to the end of the current path
             currentDir += name;
+            // Regenerate the list for the new directory
             fileList(currentDir);
         }
     }
+    // If file hide/show button is clicked
     if (e.target.id === 'hidden') {
-        showHidden = e.target.value;
+        // Change the value of the variable
+        showHidden = !showHidden;
+        // Regenerate list
         fileList(currentDir);
     }
 };
