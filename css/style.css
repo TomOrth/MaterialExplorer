@@ -56,6 +56,32 @@ td {
     word-wrap: break-word;
     width: 33.33%;
 }
-.center {
+td:first-child {
+    width: 40px;
+}
+thead,
+td:nth-child(3),
+td:nth-child(4) {
     text-align: center;
+}
+#settings-icon {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 30px;
+    cursor: pointer;
+}
+/* TODO: Opening animation */
+#settings {
+    position: fixed;
+    left: 15px;
+    bottom: 50px;
+    width: 250px;
+    height: 20vh;
+    background: white;
+    box-shadow: 0 0 3px rgba(0,0,0,.4);
+    padding: 20px;
+}
+#settings input[type="text"] {
+    width: 60px;
 }

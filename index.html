@@ -5,17 +5,14 @@
     <!-- TODO: Replace this title with dir name or at least "Files" or something relevant. -->
     <title>Material Explorer</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- TODO: Cut pills. Not really necessary. -->
+    <!-- TODO: Cut pills. Not really necessary tbh. -->
     <link rel="stylesheet" href="css/pills.min.css">
 </head>
 
 <body>
     <header>
-        <div class="wrap">
             <!-- TODO: Replace this with the name of the directory. There's no reason
                 the name of the app needs to be here statically. Also, span? Really? -->
-            <span id="headerTitle">Material Explorer</span>
-        </div>
     </header>
     <!-- "Row," while technically correct, is not the most apt description for this div.
             TODO: Change this to something better. -->
@@ -27,20 +24,24 @@
         </div>
         <div class="column two-thirds">
             <table>
-                <tbody id="files">
-                    <!-- TODO: USING CENTER CLASSES ON THINGS IS A TERRIBLE TERRIBLE
-                        TERRIBLE TERRIBLE TERRIBLE TERRIBLE TERRIBLE TERRIBLE TERRIBLE
-                        TERRIBLE THING TO DO. Fix. -->
-                    <!-- Also this should be in a <thead>. -->
-                    <tr class="titles center">
+                <thead>
+                    <tr class="titles">
+                        <td></td>
                         <td>File/Folder name</td>
                         <td>File size</td>
                         <td>Date Modified</td>
                     </tr>
+                </thead>
+                <tbody id="files">
                 </tbody>
             </table>
         </div>
     </div>
+    <div id="settings">
+        <div><input type="checkbox" id="hidden"> Show hidden files</div>
+        <div><input type="text" id="color"> Header color</div>
+    </div>
+    <img id="settings-icon" src="img/settings.svg">
     <script src="script.js"></script>
 </body>
 
