@@ -35,6 +35,12 @@ header {
     padding-left: 5%;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14);
 }
+#up {
+    width: 25px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
 table {
     margin-top: 64px;
 }
