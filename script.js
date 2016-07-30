@@ -1,5 +1,7 @@
 // Import File system. Provides extra methods that standard fs API lacks.
 var fse = require('fs-extra');
+//ipcRenderer (Fancy event emitter)
+var ipc = require('electron').ipcRenderer;
 // Import electron's built in shell API.
 var shell = require('electron').shell;
 // Windows uses a different slash than Unix systems. Figure our which slash should be used.
@@ -100,7 +102,12 @@ onclick = function(e) {
 			fileList(currentDir);
 		}
     }
+    
 };
-
+function change(){
+   ipc.send("custom");
+}
 // Done declaring functions and stuff! Initialize file list.
 fileList(currentDir);
+
+

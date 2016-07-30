@@ -5,11 +5,10 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const ipcMain = electron.ipcMain;
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-
+let colorDialog;
 function createWindow() {
 	// Create the browser window
 	mainWindow = new BrowserWindow({
@@ -21,7 +20,7 @@ function createWindow() {
 	mainWindow.loadURL(`file://${ __dirname}/index.html`);
 
 	// Open DevTools automatically.
-	// mainWindow.webContents.openDevTools();
+	 mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {
@@ -30,6 +29,8 @@ function createWindow() {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+
+
 }
 
 // This method will be called when Electron has finished
@@ -52,4 +53,25 @@ app.on('activate', () => {
 	if (mainWindow === null) {
 		createWindow();
 	}
+
+});
+ipcMain.on('custom', (event, arg) =>{
+    //setting dialog
+        colorDialog = new BrowserWindow({
+                width: 300,
+                height: 300
+        });
+        //load customizer.html
+        colorDialog.loadURL(`file://${ __dirname}/customizer.html`);
+        colorDialog.webContents.openDevTools();
+        colorDialog.on('closed', () => {
+                // Dereference the window object, usually you would store windows
+                // in an array if your app supports multi windows, this is the time
+                // when you should delete the corresponding element.
+                colorDialog = null;
+        });
+});
+ipcMain.on("settings", (event, arg) => {
+  colorDialog.close();
+  mainWindow.webContents.send("titleColor", arg);
 });

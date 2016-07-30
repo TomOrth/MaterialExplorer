@@ -1,0 +1,54 @@
+<html>
+     <head>
+        <script type="text/javascript" 
+                src="colorpicker.js"></script>
+        <style type="text/css">
+                #picker { width: 200px; height: 200px }
+                #slide { width: 30px; height: 200px }
+        </style>
+        <link rel="stylesheet" href="css/colorpicker.css"/>
+     </head>
+     <body>
+            <div id="color-picker" class="cp-default">
+            <div class="picker-wrapper">
+                <div id="picker" class="picker"></div>
+                <div id="picker-indicator" class="picker-indicator"></div>
+            </div>
+            <div class="slide-wrapper">
+                <div id="slide" class="slide"></div>
+                <div id="slide-indicator" class="slide-indicator"></div>
+            </div>
+        </div>
+          <button onclick="setValue()"/>Set color</button>
+           <script type="text/javascript">
+                var color = '';
+                var ipc = require("electron").ipcRenderer;
+
+            ColorPicker.fixIndicators(
+                    document.getElementById('slide-indicator'),
+                    document.getElementById('picker-indicator'));
+
+            ColorPicker(
+                    document.getElementById('slide'), 
+                    document.getElementById('picker'), 
+
+                    function(hex, hsv, rgb, pickerCoordinate, sliderCoordinate) {
+
+                        ColorPicker.positionIndicators(
+                            document.getElementById('slide-indicator'),
+                            document.getElementById('picker-indicator'),
+                            sliderCoordinate, pickerCoordinate
+                        );
+                        color = hex; 
+                });
+                   function setValue(){
+                     var fse = require("fs-extra");
+                     var data = {
+                       titleColor: color
+                     };
+                     fse.writeFileSync(__dirname + "/settings.json", JSON.stringify(data));
+                     ipc.send("settings", color);
+                   }
+           </script>
+     </body>
+</html>

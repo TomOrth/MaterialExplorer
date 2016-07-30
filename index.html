@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <header>
+    <header id="bar">
         <span id="title"></span>
         <img id="up" src="img/up.svg">
     </header>
@@ -39,9 +39,32 @@
     </div>
     <div id="settings" style="display: none;">
         <div><input type="checkbox" id="hidden"> Show hidden files</div>
-        <div><input type="text" id="color"> Header color</div>
+        <div><button onclick="change()">Change color</button></div>
     </div>
     <img id="settings-icon" src="img/settings.svg">
+    <script>
+      //setting up the header color
+      require("fs-extra").readFile(__dirname + "/settings.json", (err, data) => {
+        console.log(err);
+        var colorCode;
+        if(err) {
+          colorCode = "#FF3D00";
+        }
+        else {
+          var settings = JSON.parse(data);
+          colorCode = settings.titleColor;
+        }
+      console.log(colorCode);
+      document.getElementById("bar").style.backgroundColor = colorCode;
+      console.log("color is: " +  document.getElementsByTagName('header')[0].backgroundColor);
+});
+
+      var ipc = require("electron").ipcRenderer;
+      ipc.on("titleColor", (event, arg) => {
+        console.log("arg");
+        document.getElementById("bar").style.backgroundColor = arg;
+      });
+    </script>
     <script src="script.js"></script>
 </body>
 
