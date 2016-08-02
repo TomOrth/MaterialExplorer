@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- TODO: Cut pills. Not really necessary tbh. -->
     <link rel="stylesheet" href="css/pills.min.css">
+    <link rel="stylesheet" href="css/paper-ripple.min.css">
 </head>
 
 <body>
@@ -39,9 +40,13 @@
     </div>
     <div id="settings" style="display: none;">
         <div><input type="checkbox" id="hidden"> Show hidden files</div>
-        <div><button onclick="change()">Change color</button></div>
+        <div><button class="paper-button" onclick="change()">Change color</button></div>
     </div>
     <img id="settings-icon" src="img/settings.svg">
+    <script src="js/script.js"></script>
+    <script src="js/PaperRipple.min.js"></script>
+    <script src="js/rippleUtil.js"></script>
+    <script src="js/contextMenu.js"></script>
     <script>
       //setting up the header color
       require("fs-extra").readFile(__dirname + "/settings.json", (err, data) => {
@@ -56,16 +61,15 @@
         }
       console.log(colorCode);
       document.getElementById("bar").style.backgroundColor = colorCode;
-      console.log("color is: " +  document.getElementsByTagName('header')[0].backgroundColor);
-});
-
+      document.getElementsByTagName("button")[0].style.color = colorCode;
+      });
       var ipc = require("electron").ipcRenderer;
       ipc.on("titleColor", (event, arg) => {
         console.log("arg");
         document.getElementById("bar").style.backgroundColor = arg;
+        document.getElementsByTagName("button")[0].style.color = arg;
       });
     </script>
-    <script src="script.js"></script>
 </body>
 
 </html>

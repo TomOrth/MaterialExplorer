@@ -58,7 +58,7 @@ app.on('activate', () => {
 ipcMain.on('custom', (event, arg) =>{
     //setting dialog
         colorDialog = new BrowserWindow({
-                width: 300,
+                width: 280,
                 height: 300
         });
         //load customizer.html

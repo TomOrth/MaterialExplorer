@@ -1,12 +1,12 @@
 <html>
      <head>
-        <script type="text/javascript" 
-                src="colorpicker.js"></script>
         <style type="text/css">
                 #picker { width: 200px; height: 200px }
                 #slide { width: 30px; height: 200px }
+                button{position: relative; left: 80px; top: 19px;}
         </style>
         <link rel="stylesheet" href="css/colorpicker.css"/>
+        <link rel="stylesheet" href="css/paper-ripple.min.css"/>
      </head>
      <body>
             <div id="color-picker" class="cp-default">
@@ -19,8 +19,12 @@
                 <div id="slide-indicator" class="slide-indicator"></div>
             </div>
         </div>
-          <button onclick="setValue()"/>Set color</button>
-           <script type="text/javascript">
+          <button class="paper-button" onclick="setValue()"/>Set color</button>
+          <script type="text/javascript" 
+                src="js/colorpicker.js"></script>
+          <script src="js/PaperRipple.min.js"></script>
+          <script src="js/rippleUtil.js"></script>
+          <script type="text/javascript">
                 var color = '';
                 var ipc = require("electron").ipcRenderer;
 
@@ -39,7 +43,8 @@
                             document.getElementById('picker-indicator'),
                             sliderCoordinate, pickerCoordinate
                         );
-                        color = hex; 
+                        color = hex;
+                        document.getElementsByTagName("button")[0].style.color = hex;
                 });
                    function setValue(){
                      var fse = require("fs-extra");
