@@ -63,7 +63,6 @@ ipcMain.on('custom', (event, arg) =>{
         });
         //load customizer.html
         colorDialog.loadURL(`file://${ __dirname}/customizer.html`);
-        colorDialog.webContents.openDevTools();
         colorDialog.on('closed', () => {
                 // Dereference the window object, usually you would store windows
                 // in an array if your app supports multi windows, this is the time

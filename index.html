@@ -49,7 +49,7 @@
     <script src="js/contextMenu.js"></script>
     <script>
       //setting up the header color
-      require("fs-extra").readFile(__dirname + "/settings.json", (err, data) => {
+      require("fs-extra").readFile(startDir + "/.materialexplorer.json", (err, data) => {
         console.log(err);
         var colorCode;
         if(err) {

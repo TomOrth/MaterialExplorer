@@ -51,7 +51,8 @@
                      var data = {
                        titleColor: color
                      };
-                     fse.writeFileSync(__dirname + "/settings.json", JSON.stringify(data));
+                     var startDir = process.env[(process.platform === "win32") ? "USERPROFILE" : "HOME"];
+                     fse.writeFileSync(startDir + "/.materialexplorer.json", JSON.stringify(data));
                      ipc.send("settings", color);
                    }
            </script>
