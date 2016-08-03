@@ -9,8 +9,8 @@ var slash = (process.platform == 'win32') ? '\\' : '/';
 
 // Object to store major page parts.
 var pg = {
-    title: document.getElementsByTagName('title')[0],
-    header: document.getElementsByTagName('header')[0],
+	title: document.getElementsByTagName('title')[0],
+	header: document.getElementsByTagName('header')[0],
 	headerTitle: document.getElementById('title'),
 	settingsButton: document.getElementById('settings-button'),
 	up: document.getElementById('up')
@@ -27,7 +27,7 @@ function fileList(dir) {
 	// Read directory for list of files
 	fse.readdir(dir, function(err, file) {
 		pg.title.innerHTML = dir;
-        pg.headerTitle.innerHTML = dir;
+		pg.headerTitle.innerHTML = dir;
 		files.innerHTML = '';
 		for (var i = 0; i < file.length; ++i) {
 			// Object of fileTable elements.
@@ -51,8 +51,12 @@ function fileList(dir) {
 			fileTable.imgContainer.appendChild(fileTable.img);
 			fileTable.fileName.innerHTML = file[i];
 			// Sets up the size of the file/folder and last modified date
-			// TODO: Add larger byte options.
-			fileTable.fileSize.innerHTML = stats.size + ' bytes';
+			// TODO: Fix folder sizes. Currently gets size of actual folder. Should get size of folder + all contents.
+            if (stats.size >= 1073741824) fileTable.fileSize.innerHTML = parseInt(stats.size / 1073741824) + 'GB';
+            else if (stats.size >= 1048576) fileTable.fileSize.innerHTML = parseInt(stats.size / 1048576) + 'MB';
+            else if (stats.size >= 1024) fileTable.fileSize.innerHTML = parseInt(stats.size / 1024) + 'KB';
+            else fileTable.fileSize.innerHTML = stats.size + ' bytes';
+
 			fileTable.timeStamp.innerHTML = mtime.substring(4, mtime.indexOf('GMT') - 4);
 			// Append fileName, size, and timeStamp into the table row.
 			fileTable.tr.appendChild(fileTable.imgContainer);
@@ -69,8 +73,9 @@ function fileList(dir) {
 onclick = function(e) {
 	// Did user click on settings button?
 	if (e.target === pg.settingsButton) {
-		// TODO: Open options window.
-        ipc.send('openOptions');
+		// Open options window.
+        // TODO: Fix this
+		ipc.send('openOptions');
 	} else if (e.target === pg.up) {
 		currentDir = currentDir.substring(0, currentDir.length - 1);
 		currentDir = currentDir.substring(0, currentDir.lastIndexOf(slash) + 1);
@@ -79,7 +84,7 @@ onclick = function(e) {
 		// If user clicked on a file/folder
 		// Get the name of the file/folder they clicked on.
 		var name = (e.target.tagName === 'IMG') ? e.target.parentNode.nextSibling.innerHTML : e.target.parentNode.childNodes[1].innerHTML;
-        // If they clicked on a file
+		// If they clicked on a file
 		if (fse.statSync(currentDir + name).isFile()) {
 			// Open item with default application.
 			shell.openItem(currentDir + name);
@@ -91,6 +96,14 @@ onclick = function(e) {
 		}
 	}
 };
+
+var options = {
+    titleColor: '#FF3D00'
+};
+
+options = JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json'));
+
+pg.header.style.backgroundColor = options.color;
 
 // All done declaring functions and stuff! Initialize the file list at the starting directory.
 fileList(currentDir);

@@ -54,8 +54,8 @@ app.on('activate', () => {
 ipcMain.on('openOptions', (event, arg) => {
 	//setting dialog
 	optionsWindow = new BrowserWindow({
-		width: 400,
-		height: 500
+		width: 270,
+		height: 300
 	});
 	// Load customizer.html
 	optionsWindow.loadURL(`file://${ __dirname}/options.html`);
@@ -67,7 +67,9 @@ ipcMain.on('openOptions', (event, arg) => {
 		optionsWindow = null;
 	});
 });
-ipcMain.on('settings', (event, arg) => {
+ipcMain.on('closeOptions', (event, arg) => {
+    // Close options window
 	optionsWindow.close();
-	mainWindow.webContents.send('titleColor', arg);
+    // Reload main window to update options
+    mainWindow.loadURL(`file://${ __dirname}/index.html`);
 });

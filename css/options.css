@@ -1,3 +1,18 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-weight: 100;
+    padding: 10px 15px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    text-align: center;
+}
+h2 {
+    margin: 0 0 10px;
+}
 .picker-wrapper,
 .slide-wrapper {
     position: relative;
@@ -16,9 +31,6 @@
     float: left;
 }
 #color-picker {
-    background-color: gray;
-    padding: 12px;
-    float: left;
 }
 #color-picker .picker {
     width: 200px;
@@ -29,7 +41,7 @@
     height: 200px;
 }
 #color-picker .slide-wrapper {
-    margin-left: 10px;
+    margin-left: 4px;
 }
 #color-picker .picker-indicator {
     width: 5px;
@@ -47,8 +59,8 @@
     border: 4px solid lightgrey;
     border-radius: 4px;
     background-color: white;
+    box-sizing: content-box;
 }
-
 #picker {
     width: 200px;
     height: 200px
@@ -58,7 +70,7 @@
     height: 200px
 }
 button {
-    position: relative;
-    left: 80px;
-    top: 19px;
+    padding: 4px 8px;
+    display: block;
+    margin: 0 auto;
 }

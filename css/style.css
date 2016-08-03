@@ -40,6 +40,7 @@ header {
     position: absolute;
     top: 20px;
     right: 20px;
+    cursor: pointer;
 }
 .row {
     display: block;
@@ -71,7 +72,7 @@ header {
         width: 66.66667%
 }
 table {
-    margin-top: 64px;
+    margin-top: 70px;
 }
 ul {
     list-style: none;
