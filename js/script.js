@@ -9,19 +9,16 @@ var slash = (process.platform == 'win32') ? '\\' : '/';
 
 // Object to store major page parts.
 var pg = {
-	title: document.getElementsByTagName('title')[0],
-	header: document.getElementById('title'),
-	settings: {
-		icon: document.getElementById('settings-icon'),
-		pane: document.getElementById('settings'),
-		showHidden: false
-	},
+    title: document.getElementsByTagName('title')[0],
+    header: document.getElementsByTagName('header')[0],
+	headerTitle: document.getElementById('title'),
+	settingsButton: document.getElementById('settings-button'),
 	up: document.getElementById('up')
 };
 
-// Create startDir. Initial path to view.
+// Initialize currently-in-view directory. Starts at the user's home.
 // For Windows, USERPROFILE is used instead of HOME to fetch home directory.
-// TODO: Hidden file hiding support. Maybe make icons grey when shown?
+// TODO: Hidden file support. Maybe make icons grey when  they're shown?
 var currentDir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + slash;
 // Create currentDir: directory currently being viewed.
 
@@ -30,9 +27,9 @@ function fileList(dir) {
 	// Read directory for list of files
 	fse.readdir(dir, function(err, file) {
 		pg.title.innerHTML = dir;
-		pg.header.innerHTML = dir;
+        pg.headerTitle.innerHTML = dir;
 		files.innerHTML = '';
-		for (var i = 0; i < file.length; ++i) /*if (pg.settings.showHidden || file[i][0] === '.') {*/ {
+		for (var i = 0; i < file.length; ++i) {
 			// Object of fileTable elements.
 			var fileTable = {
 				tr: document.createElement('tr'),
@@ -68,30 +65,21 @@ function fileList(dir) {
 	});
 }
 
-// Handles file click.
+// Handles all click events on page.
 onclick = function(e) {
 	// Did user click on settings button?
-	if (e.target.id === 'settings-icon') {
-        // If settings pane isn't showing, show it. If it is, then hide it.
-		if (pg.settings.pane.style.display === 'none') {
-			pg.settings.pane.style.display = 'block';
-		} else {
-			pg.settings.pane.style.display = 'none';
-		}
-	} else if (e.target.id === 'hidden') { // If file hide/show button is clicked
-		// Change the value of the variable
-		showHidden = !showHidden;
-		// Regenerate list
+	if (e.target === pg.settingsButton) {
+		// TODO: Open options window.
+        ipc.send('openOptions');
+	} else if (e.target === pg.up) {
+		currentDir = currentDir.substring(0, currentDir.length - 1);
+		currentDir = currentDir.substring(0, currentDir.lastIndexOf(slash) + 1);
 		fileList(currentDir);
-	} else if (e.target.id === 'up') {
-        currentDir = currentDir.substring(0, currentDir.length - 1);
-        currentDir = currentDir.substring(0, currentDir.lastIndexOf(slash) + 1);
-        fileList(currentDir);
-    } else if (e.target.parentNode.tagName === 'TBODY' || e.target.tagName === 'IMG') { // Did user click on a file/folder?
-        // If user clicked on a file
-        // Get the name of the file/folder they clicked on.
+	} else if (e.target.parentNode.tagName === 'TBODY' || e.target.tagName === 'IMG') { // Did user click on a file/folder?
+		// If user clicked on a file/folder
+		// Get the name of the file/folder they clicked on.
 		var name = (e.target.tagName === 'IMG') ? e.target.parentNode.nextSibling.innerHTML : e.target.parentNode.childNodes[1].innerHTML;
-		console.log(name);
+        // If they clicked on a file
 		if (fse.statSync(currentDir + name).isFile()) {
 			// Open item with default application.
 			shell.openItem(currentDir + name);
@@ -101,13 +89,8 @@ onclick = function(e) {
 			// Regenerate the list for the new directory
 			fileList(currentDir);
 		}
-    }
-    
+	}
 };
-function change(){
-   ipc.send("custom");
-}
-// Done declaring functions and stuff! Initialize file list.
+
+// All done declaring functions and stuff! Initialize the file list at the starting directory.
 fileList(currentDir);
-
-

@@ -2,28 +2,23 @@
 <html>
 
 <head>
-    <!-- TODO: Replace this title with dir name or at least "Files" or something relevant. -->
-    <title>Material Explorer</title>
+    <title></title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- TODO: Cut pills. Not really necessary tbh. -->
-    <link rel="stylesheet" href="css/pills.min.css">
     <link rel="stylesheet" href="css/paper-ripple.min.css">
 </head>
 
 <body>
-    <header id="bar">
-        <span id="title"></span>
+    <header>
+        <h1 id="title"></h1>
         <img id="up" src="img/up.svg">
     </header>
-    <!-- "Row," while technically correct, is not the most apt description for this div.
-            TODO: Change this to something better. -->
     <div class="row">
-        <div class="column one-third">
+        <div class="column">
             <ul id="bookmarks">
-                <!-- TODO: Replace this with file information viewer or something of the like. Bookmarks shouldn't be this prevalent IMO. -->
+                <!-- TODO: Put bookmarks here, or something of the sort. -->
             </ul>
         </div>
-        <div class="column two-thirds">
+        <div class="column">
             <table>
                 <thead>
                     <tr class="titles">
@@ -38,38 +33,9 @@
             </table>
         </div>
     </div>
-    <div id="settings" style="display: none;">
-        <div><input type="checkbox" id="hidden"> Show hidden files</div>
-        <div><button class="paper-button" onclick="change()">Change color</button></div>
-    </div>
-    <img id="settings-icon" src="img/settings.svg">
+    <img id="settings-button" src="img/settings.svg">
     <script src="js/script.js"></script>
-    <script src="js/PaperRipple.min.js"></script>
-    <script src="js/rippleUtil.js"></script>
     <script src="js/contextMenu.js"></script>
-    <script>
-      //setting up the header color
-      require("fs-extra").readFile(__dirname + "/settings.json", (err, data) => {
-        console.log(err);
-        var colorCode;
-        if(err) {
-          colorCode = "#FF3D00";
-        }
-        else {
-          var settings = JSON.parse(data);
-          colorCode = settings.titleColor;
-        }
-      console.log(colorCode);
-      document.getElementById("bar").style.backgroundColor = colorCode;
-      document.getElementsByTagName("button")[0].style.color = colorCode;
-      });
-      var ipc = require("electron").ipcRenderer;
-      ipc.on("titleColor", (event, arg) => {
-        console.log("arg");
-        document.getElementById("bar").style.backgroundColor = arg;
-        document.getElementsByTagName("button")[0].style.color = arg;
-      });
-    </script>
 </body>
 
 </html>

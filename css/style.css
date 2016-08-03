@@ -28,16 +28,47 @@ header {
     width: 100%;
     height: 64px;
     color: white;
-    font-size: 27px;
-    line-height: 64px;
     padding: 0 20px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14);
+}
+#title {
+    font-size: 27px;
+    line-height: 64px;
 }
 #up {
     width: 25px;
     position: absolute;
     top: 20px;
     right: 20px;
+}
+.row {
+    display: block;
+    margin: 0 auto;
+    max-width: 1024px;
+    overflow: hidden;
+    *zoom: 1
+}
+.row::before,
+.row::after {
+    content: "";
+    display: table;
+    line-height: 0
+}
+.row::after {
+    clear: both
+}
+.column {
+    float: left;
+    padding: 10px;
+    width: 100%
+}
+.column:first-of-type {
+    padding-left: 20px;
+        width: 33.33333%
+}
+.column:last-of-type {
+    padding-right: 20px;
+        width: 66.66667%
 }
 table {
     margin-top: 64px;
@@ -68,24 +99,10 @@ td:nth-child(3),
 td:nth-child(4) {
     text-align: center;
 }
-#settings-icon {
+#settings-button {
     position: fixed;
     bottom: 10px;
     left: 10px;
     width: 30px;
     cursor: pointer;
-}
-/* TODO: Opening animation */
-#settings {
-    position: fixed;
-    left: 15px;
-    bottom: 50px;
-    width: 250px;
-    height: 20vh;
-    background: white;
-    box-shadow: 0 0 3px rgba(0,0,0,.4);
-    padding: 20px;
-}
-#settings input[type="text"] {
-    width: 60px;
 }
