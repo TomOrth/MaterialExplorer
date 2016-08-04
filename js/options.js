@@ -23,7 +23,7 @@ ColorPicker(document.getElementById('slide'), document.getElementById('picker'),
 			sliderCoordinate, pickerCoordinate
 		);
 		color = hex;
-		controls.update.style.color = hex;
+		controls.update.style.backgroundColor = hex;
 	});
 
 // Handler for "Update" being clicked

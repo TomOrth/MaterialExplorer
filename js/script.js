@@ -76,7 +76,7 @@ onclick = function(e) {
 		// Open options window.
 		// TODO: Fix this
 		ipc.send('openOptions');
-	} else if (e.target === pg.up) {
+	} else if (e.target === pg.up && currentDir.length > 1) { // If they clicked on up and directory is not /
 		currentDir = currentDir.substring(0, currentDir.length - 1);
 		currentDir = currentDir.substring(0, currentDir.lastIndexOf(slash) + 1);
 		fileList(currentDir);

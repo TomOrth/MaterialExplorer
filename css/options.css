@@ -5,12 +5,11 @@
 }
 body {
     font-weight: 100;
-    padding: 10px 15px;
+    padding: 10px 6px 6px 10px;
     font-family: 'Roboto', sans-serif;
-    color: #333;
-    text-align: center;
+    background: #333;
 }
-h2 {
+p {
     font-size: 1em;
     margin: 0 0 10px;
 }
@@ -42,7 +41,7 @@ h2 {
     height: 200px;
 }
 #color-picker .slide-wrapper {
-    margin-left: 4px;
+    margin-left: 8px;
 }
 #color-picker .picker-indicator {
     width: 5px;
@@ -71,7 +70,11 @@ h2 {
     height: 200px
 }
 button {
-    padding: 4px 8px;
-    display: block;
-    margin: 0 auto;
+    float: right;
+    font-size: 14px;
+    background: #333;
+    margin: 7px 2px;
+    color: white;
+    border: 0;
+    padding: 5px 10px;
 }

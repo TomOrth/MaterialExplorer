@@ -54,8 +54,8 @@ app.on('activate', () => {
 ipcMain.on('openOptions', (event, arg) => {
 	//setting dialog
 	optionsWindow = new BrowserWindow({
-		width: 270,
-		height: 300
+		width: 257,
+		height: 274
 	});
 	// Load customizer.html
 	optionsWindow.loadURL(`file://${ __dirname}/options.html`);
