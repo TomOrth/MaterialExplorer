@@ -108,7 +108,8 @@ try {
     };
 }
 
+// Set header background color.
 pg.header.style.backgroundColor = options.headerColor;
 
-// All done declaring functions and stuff! Initialize the file list at the starting directory.
+// All done declaring vars & functions and managing options! Initialize the file list at the starting directory.
 fileList(currentDir);

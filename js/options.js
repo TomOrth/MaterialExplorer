@@ -28,14 +28,27 @@ ColorPicker(document.getElementById('slide'), document.getElementById('picker'),
 
 // Handler for "Update" being clicked
 controls.update.onclick = function() {
+    // Get data from window.
 	var data = {
 		headerColor: color
 	};
+    // Write JSON data to file.
 	fse.writeFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json', JSON.stringify(data));
+    // Tell main.js to close the options window and refresh the main window.
 	ipc.send('closeOptions');
-    console.log('test');
 };
 
-// Get current values from storage.
-var options = fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json');
+
+// Try to get options from config file. If there aren't any, set default options.
+try {
+    // Set options to contents of config file.
+    var options = fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json');
+} catch (e) { // If error (assume file doesn't exist)
+    // Set default options
+    var options = {
+    	headerColor: '#FF3D00'
+    };
+}
+
+// Start header color chooser at the current value.
 color = options.headerColor;
