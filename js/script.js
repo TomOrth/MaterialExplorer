@@ -10,18 +10,15 @@ var slash = (process.platform == 'win32') ? '\\' : '/';
 // Object to store major page parts.
 var pg = {
 	title: document.getElementsByTagName('title')[0],
-	header: document.getElementById('title'),
-	settings: {
-		icon: document.getElementById('settings-icon'),
-		pane: document.getElementById('settings'),
-		showHidden: false
-	},
+	header: document.getElementsByTagName('header')[0],
+	headerTitle: document.getElementById('title'),
+	settingsButton: document.getElementById('settings-button'),
 	up: document.getElementById('up')
 };
 
-// Create startDir. Initial path to view.
+// Initialize currently-in-view directory. Starts at the user's home.
 // For Windows, USERPROFILE is used instead of HOME to fetch home directory.
-// TODO: Hidden file hiding support. Maybe make icons grey when shown?
+// TODO: Hidden file support. Maybe make icons grey when  they're shown?
 var currentDir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + slash;
 // Create currentDir: directory currently being viewed.
 
@@ -30,9 +27,9 @@ function fileList(dir) {
 	// Read directory for list of files
 	fse.readdir(dir, function(err, file) {
 		pg.title.innerHTML = dir;
-		pg.header.innerHTML = dir;
+		pg.headerTitle.innerHTML = dir;
 		files.innerHTML = '';
-		for (var i = 0; i < file.length; ++i) /*if (pg.settings.showHidden || file[i][0] === '.') {*/ {
+		for (var i = 0; i < file.length; ++i) {
 			// Object of fileTable elements.
 			var fileTable = {
 				tr: document.createElement('tr'),
@@ -54,8 +51,12 @@ function fileList(dir) {
 			fileTable.imgContainer.appendChild(fileTable.img);
 			fileTable.fileName.innerHTML = file[i];
 			// Sets up the size of the file/folder and last modified date
-			// TODO: Add larger byte options.
-			fileTable.fileSize.innerHTML = stats.size + ' bytes';
+			// TODO: Fix folder sizes. Currently gets size of actual folder. Should get size of folder + all contents.
+			if (stats.size >= 1073741824) fileTable.fileSize.innerHTML = parseInt(stats.size / 1073741824) + 'GB';
+			else if (stats.size >= 1048576) fileTable.fileSize.innerHTML = parseInt(stats.size / 1048576) + 'MB';
+			else if (stats.size >= 1024) fileTable.fileSize.innerHTML = parseInt(stats.size / 1024) + 'KB';
+			else fileTable.fileSize.innerHTML = stats.size + ' bytes';
+
 			fileTable.timeStamp.innerHTML = mtime.substring(4, mtime.indexOf('GMT') - 4);
 			// Append fileName, size, and timeStamp into the table row.
 			fileTable.tr.appendChild(fileTable.imgContainer);
@@ -68,30 +69,22 @@ function fileList(dir) {
 	});
 }
 
-// Handles file click.
+// Handles all click events on page.
 onclick = function(e) {
 	// Did user click on settings button?
-	if (e.target.id === 'settings-icon') {
-        // If settings pane isn't showing, show it. If it is, then hide it.
-		if (pg.settings.pane.style.display === 'none') {
-			pg.settings.pane.style.display = 'block';
-		} else {
-			pg.settings.pane.style.display = 'none';
-		}
-	} else if (e.target.id === 'hidden') { // If file hide/show button is clicked
-		// Change the value of the variable
-		showHidden = !showHidden;
-		// Regenerate list
+	if (e.target === pg.settingsButton) {
+		// Open options window.
+		// TODO: Fix this
+		ipc.send('openOptions');
+	} else if (e.target === pg.up && currentDir.length > 1) { // If they clicked on up and directory is not /
+		currentDir = currentDir.substring(0, currentDir.length - 1);
+		currentDir = currentDir.substring(0, currentDir.lastIndexOf(slash) + 1);
 		fileList(currentDir);
-	} else if (e.target.id === 'up') {
-        currentDir = currentDir.substring(0, currentDir.length - 1);
-        currentDir = currentDir.substring(0, currentDir.lastIndexOf(slash) + 1);
-        fileList(currentDir);
-    } else if (e.target.parentNode.tagName === 'TBODY' || e.target.tagName === 'IMG') { // Did user click on a file/folder?
-        // If user clicked on a file
-        // Get the name of the file/folder they clicked on.
+	} else if (e.target.parentNode.tagName === 'TBODY' || e.target.tagName === 'IMG') { // Did user click on a file/folder?
+		// If user clicked on a file/folder
+		// Get the name of the file/folder they clicked on.
 		var name = (e.target.tagName === 'IMG') ? e.target.parentNode.nextSibling.innerHTML : e.target.parentNode.childNodes[1].innerHTML;
-		console.log(name);
+		// If they clicked on a file
 		if (fse.statSync(currentDir + name).isFile()) {
 			// Open item with default application.
 			shell.openItem(currentDir + name);
@@ -101,13 +94,29 @@ onclick = function(e) {
 			// Regenerate the list for the new directory
 			fileList(currentDir);
 		}
-    }
-    
+	}
 };
-function change(){
-   ipc.send("custom");
+
+// Try to get options from config file. If there aren't any, set default options.
+try {
+    // Set options to contents of config file.
+    var options = (JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json')));
+} catch (e) { // If error (assume file doesn't exist)
+    // Set default options
+    var options = {
+    	headerColor: '#FF3D00'
+    };
 }
-// Done declaring functions and stuff! Initialize file list.
+
+// Set header background color.
+pg.header.style.backgroundColor = options.headerColor;
+
+// All done declaring vars & functions and managing options! Initialize the file list at the starting directory.
 fileList(currentDir);
 
+
+var bookmarks = [
+    {}
+];
+// TODO: Make this work
 

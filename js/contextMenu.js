@@ -14,3 +14,4 @@ window.addEventListener('contextmenu', (e) => {
       menu.popup(remote.getCurrentWindow());
 }, false);
 
+// TODO: Make this menu functional & replace placeholders

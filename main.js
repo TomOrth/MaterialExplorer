@@ -8,9 +8,10 @@ const ipcMain = electron.ipcMain;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let colorDialog;
+let optionsWindow;
+
 function createWindow() {
-	// Create the browser window
+	// Create the window
 	mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600
@@ -19,9 +20,6 @@ function createWindow() {
 	// and load the index.html of the app.
 	mainWindow.loadURL(`file://${ __dirname}/index.html`);
 
-	// Open DevTools automatically.
-	 mainWindow.webContents.openDevTools();
-
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {
 		// Dereference the window object, usually you would store windows
@@ -29,8 +27,6 @@ function createWindow() {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
-
-
 }
 
 // This method will be called when Electron has finished
@@ -55,22 +51,25 @@ app.on('activate', () => {
 	}
 
 });
-ipcMain.on('custom', (event, arg) =>{
-    //setting dialog
-        colorDialog = new BrowserWindow({
-                width: 280,
-                height: 300
-        });
-        //load customizer.html
-        colorDialog.loadURL(`file://${ __dirname}/customizer.html`);
-        colorDialog.on('closed', () => {
-                // Dereference the window object, usually you would store windows
-                // in an array if your app supports multi windows, this is the time
-                // when you should delete the corresponding element.
-                colorDialog = null;
-        });
+ipcMain.on('openOptions', (event, arg) => {
+	//setting dialog
+	optionsWindow = new BrowserWindow({
+		width: 257,
+		height: 274
+	});
+	// Load customizer.html
+	optionsWindow.loadURL(`file://${ __dirname}/options.html`);
+
+	optionsWindow.on('closed', () => {
+		// Dereference the window object, usually you would store windows
+		// in an array if your app supports multi windows, this is the time
+		// when you should delete the corresponding element.
+		optionsWindow = null;
+	});
 });
-ipcMain.on("settings", (event, arg) => {
-  colorDialog.close();
-  mainWindow.webContents.send("titleColor", arg);
+ipcMain.on('closeOptions', (event, arg) => {
+    // Close options window
+	optionsWindow.close();
+    // Reload main window to update options
+    mainWindow.loadURL(`file://${ __dirname}/index.html`);
 });

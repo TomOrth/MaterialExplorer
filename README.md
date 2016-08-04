@@ -3,6 +3,8 @@ Gorgeous material design file browser. Written using [Electron](http://electron.
 
 Get the newest compiled version [here](releases)!
 
+TODO: Screenshots
+
 ## Development dependencies
 * [Node.js](https://nodejs.org)
 * [npm](https://npmjs.com)
