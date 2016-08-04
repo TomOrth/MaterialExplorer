@@ -52,10 +52,10 @@ function fileList(dir) {
 			fileTable.fileName.innerHTML = file[i];
 			// Sets up the size of the file/folder and last modified date
 			// TODO: Fix folder sizes. Currently gets size of actual folder. Should get size of folder + all contents.
-            if (stats.size >= 1073741824) fileTable.fileSize.innerHTML = parseInt(stats.size / 1073741824) + 'GB';
-            else if (stats.size >= 1048576) fileTable.fileSize.innerHTML = parseInt(stats.size / 1048576) + 'MB';
-            else if (stats.size >= 1024) fileTable.fileSize.innerHTML = parseInt(stats.size / 1024) + 'KB';
-            else fileTable.fileSize.innerHTML = stats.size + ' bytes';
+			if (stats.size >= 1073741824) fileTable.fileSize.innerHTML = parseInt(stats.size / 1073741824) + 'GB';
+			else if (stats.size >= 1048576) fileTable.fileSize.innerHTML = parseInt(stats.size / 1048576) + 'MB';
+			else if (stats.size >= 1024) fileTable.fileSize.innerHTML = parseInt(stats.size / 1024) + 'KB';
+			else fileTable.fileSize.innerHTML = stats.size + ' bytes';
 
 			fileTable.timeStamp.innerHTML = mtime.substring(4, mtime.indexOf('GMT') - 4);
 			// Append fileName, size, and timeStamp into the table row.
@@ -74,7 +74,7 @@ onclick = function(e) {
 	// Did user click on settings button?
 	if (e.target === pg.settingsButton) {
 		// Open options window.
-        // TODO: Fix this
+		// TODO: Fix this
 		ipc.send('openOptions');
 	} else if (e.target === pg.up) {
 		currentDir = currentDir.substring(0, currentDir.length - 1);
@@ -97,13 +97,18 @@ onclick = function(e) {
 	}
 };
 
-var options = {
-    titleColor: '#FF3D00'
-};
+// Try to get options from config file. If there aren't any, set default options.
+try {
+    // Set options to contents of config file.
+    var options = (JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json')));
+} catch (e) { // If error (assume file doesn't exist)
+    // Set default options
+    var options = {
+    	headerColor: '#FF3D00'
+    };
+}
 
-options = JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json'));
-
-pg.header.style.backgroundColor = options.color;
+pg.header.style.backgroundColor = options.headerColor;
 
 // All done declaring functions and stuff! Initialize the file list at the starting directory.
 fileList(currentDir);

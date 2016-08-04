@@ -29,7 +29,7 @@ ColorPicker(document.getElementById('slide'), document.getElementById('picker'),
 // Handler for "Update" being clicked
 controls.update.onclick = function() {
 	var data = {
-		titleColor: color
+		headerColor: color
 	};
 	fse.writeFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json', JSON.stringify(data));
 	ipc.send('closeOptions');
@@ -38,4 +38,4 @@ controls.update.onclick = function() {
 
 // Get current values from storage.
 var options = fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json');
-color = options.titleColor;
+color = options.headerColor;

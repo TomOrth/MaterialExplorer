@@ -11,6 +11,7 @@ body {
     text-align: center;
 }
 h2 {
+    font-size: 1em;
     margin: 0 0 10px;
 }
 .picker-wrapper,
