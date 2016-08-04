@@ -88,6 +88,10 @@ table {
     table-layout: fixed;
     width: 100%;
 }
+thead td {
+    padding-bottom: 10px;
+    color: #444;
+}
 td {
     word-wrap: break-word;
     width: 33.33%;

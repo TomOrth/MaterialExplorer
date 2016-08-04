@@ -113,3 +113,10 @@ pg.header.style.backgroundColor = options.headerColor;
 
 // All done declaring vars & functions and managing options! Initialize the file list at the starting directory.
 fileList(currentDir);
+
+
+var bookmarks = [
+    {}
+];
+// TODO: Make this work
+
