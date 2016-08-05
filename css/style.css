@@ -71,6 +71,10 @@ header {
     padding-right: 20px;
         width: 66.66667%
 }
+.bookTitles #name{
+    width: 100% !important;
+    text-align: center;
+}
 table {
     margin-top: 70px;
 }
@@ -92,8 +96,7 @@ thead td {
     padding-bottom: 10px;
     color: #444;
 }
-td {
-    word-wrap: break-word;
+.files tr td {
     width: 33.33%;
 }
 td:first-child {

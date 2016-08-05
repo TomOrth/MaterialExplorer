@@ -19,7 +19,7 @@ function createWindow() {
 
 	// and load the index.html of the app.
 	mainWindow.loadURL(`file://${ __dirname}/index.html`);
-
+        mainWindow.webContents.openDevTools();
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {
 		// Dereference the window object, usually you would store windows
@@ -54,7 +54,7 @@ app.on('activate', () => {
 ipcMain.on('openOptions', (event, arg) => {
 	//setting dialog
 	optionsWindow = new BrowserWindow({
-		width: 257,
+		width: 270,
 		height: 274
 	});
 	// Load customizer.html
@@ -69,7 +69,7 @@ ipcMain.on('openOptions', (event, arg) => {
 });
 ipcMain.on('closeOptions', (event, arg) => {
     // Close options window
-	optionsWindow.close();
-    // Reload main window to update options
-    mainWindow.loadURL(`file://${ __dirname}/index.html`);
+    optionsWindow.close();
+    // Fire up ipc
+    mainWindow.webContents.send("update");
 });

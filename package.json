@@ -19,6 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "fs-extra": "^0.30.0",
-    "electron-prebuilt": "^1.2.7"
+    "electron-prebuilt": "^1.2.7",
+    "paper-ripple": "^0.2.0"
   }
 }
