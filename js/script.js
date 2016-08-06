@@ -97,47 +97,50 @@ onclick = function(e) {
 };
 
 // Try to get options from config file. If there aren't any, set default options.
-function update(){
-  try {
-      // Set options to contents of config file.
-      var options = (JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json')));
-  } catch (e) { // If error (assume file doesn't exist)
-      // Set default options
-      var options = {
-          headerColor: '#FF3D00'
-      };
-  }
-  // Set header background color.
-  pg.header.style.backgroundColor = options.headerColor;
+var options;
+function update() {
+	try {
+		// Set options to contents of config file.
+		options = (JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json')));
+	} catch (e) { // If error (assume file doesn't exist)
+		// Set default options
+		options = {
+			headerColor: '#FF3D00'
+		};
+	}
+	// Set header background color.
+	pg.header.style.backgroundColor = options.headerColor;
 }
-ipc.on("update", (event, arg) => {
-  update();
+ipc.on('update', function(event, arg) {
+	update();
 });
-function loadBookmarks(){
-   try{
-     var files = fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + slash + '.materialbookmarks.json');
-     for(var i = 0; i < files.items.length; ++i){
-         var content = {
-          bookmarks: document.getElementById("bookmarks"),
-          fileRow: document.createElement("tr"),
-          imageContainer: document.createElement("td"),
-          nameContainer: document.createElement("td"),
-          img: new Image()
-         };
-         content.img.src = files.items[i].src;
-         content.nameContainer.innerHTML = files.items[i].name;
-         content.nameContainer.setAttribute("data-dir", files.items[i].dir);
-         content.imageContainer.appendElement(choice.img);
-         content.fileRow.appendChild(choice.imageContainer);
-         content.fileRow.appendChild(choice.nameContainer);
-         content.bookmarks.appendChild(choice.fileRow);
-         alert("added");
-     }
-   } catch(e){}
+
+function loadBookmarks() {
+	try {
+		var files = fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + slash + '.materialbookmarks.json');
+		for (var i = 0; i < files.items.length; ++i) {
+			var content = {
+				bookmarks: document.getElementById('bookmarks'),
+				fileRow: document.createElement('tr'),
+				imageContainer: document.createElement('td'),
+				nameContainer: document.createElement('td'),
+				img: new Image()
+			};
+			content.img.src = files.items[i].src;
+			content.nameContainer.innerHTML = files.items[i].name;
+			content.nameContainer.setAttribute('data-dir', files.items[i].dir);
+			content.imageContainer.appendElement(choice.img);
+			content.fileRow.appendChild(choice.imageContainer);
+			content.fileRow.appendChild(choice.nameContainer);
+			content.bookmarks.appendChild(choice.fileRow);
+			alert('added');
+		}
+	} catch (e) {
+        // TODO: Generate default bookmarks + connected devices + etc
+    }
 }
 // All done declaring vars & functions and managing options! Initialize the file list at the starting directory.
 update();
 loadBookmarks();
 fileList(currentDir);
 // TODO: Make this work
-

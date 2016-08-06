@@ -36,3 +36,6 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Material Explorer stored settings file. Shouldn't be stored in this dir, but just in case
+settings.json

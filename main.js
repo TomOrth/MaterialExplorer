@@ -57,7 +57,7 @@ ipcMain.on('openOptions', (event, arg) => {
 		width: 270,
 		height: 274
 	});
-	// Load customizer.html
+	// Load options page
 	optionsWindow.loadURL(`file://${ __dirname}/options.html`);
 
 	optionsWindow.on('closed', () => {

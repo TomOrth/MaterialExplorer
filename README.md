@@ -1,7 +1,7 @@
 # MaterialExplorer
 Gorgeous material design file browser. Written using [Electron](http://electron.atom.io/) for easy customization.
 
-Get the newest compiled version [here](releases)!
+Get the newest compiled version [here](http://github.com/atf1999/MaterialExplorer/releases)!
 
 TODO: Screenshots
 
