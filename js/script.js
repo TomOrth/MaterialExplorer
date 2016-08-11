@@ -7,6 +7,13 @@ var shell = require('electron').shell;
 // Windows uses a different slash than Unix systems. Figure our which slash should be used.
 var slash = (process.platform == 'win32') ? '\\' : '/';
 
+var marks = true;
+var bookmarkData;
+try{
+  bookmarkData = require("." + slash + ".materialbookmarks.json");
+} catch(err) {
+  marks = false;
+}
 // Object to store major page parts.
 var pg = {
 	title: document.getElementsByTagName('title')[0],
@@ -101,7 +108,7 @@ var options;
 function update() {
 	try {
 		// Set options to contents of config file.
-		options = (JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json')));
+		options = JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialexplorer.json', "utf8"));
 	} catch (e) { // If error (assume file doesn't exist)
 		// Set default options
 		options = {
@@ -116,28 +123,30 @@ ipc.on('update', function(event, arg) {
 });
 
 function loadBookmarks() {
-	try {
-		var files = fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + slash + '.materialbookmarks.json');
-		for (var i = 0; i < files.items.length; ++i) {
-			var content = {
-				bookmarks: document.getElementById('bookmarks'),
-				fileRow: document.createElement('tr'),
-				imageContainer: document.createElement('td'),
-				nameContainer: document.createElement('td'),
-				img: new Image()
-			};
-			content.img.src = files.items[i].src;
-			content.nameContainer.innerHTML = files.items[i].name;
-			content.nameContainer.setAttribute('data-dir', files.items[i].dir);
-			content.imageContainer.appendElement(choice.img);
-			content.fileRow.appendChild(choice.imageContainer);
-			content.fileRow.appendChild(choice.nameContainer);
-			content.bookmarks.appendChild(choice.fileRow);
-			alert('added');
-		}
-	} catch (e) {
+	
+		//dataJSON = JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialbookmarks.json', "utf8")) + "";
+               fse.readFile("." + slash + '.materialbookmarks.json', function(err, data){
+                   if(!err){
+                      var dataJSON = JSON.parse(data);
+		      for (var i = 0; i < dataJSON.items.length; ++i) {
+		  	     var content = {
+			      	    bookmarks: document.getElementById('bookmarks'),
+				    fileRow: document.createElement('tr'),
+				    imageContainer: document.createElement('td'),
+				    nameContainer: document.createElement('td'),
+				    img: new Image()
+			     };
+			     content.img.src = dataJSON.items[i].src;
+			     content.nameContainer.innerHTML = dataJSON.items[i].name;
+			     content.nameContainer.setAttribute('data-dir', dataJSON.items[i].dir);
+			     content.imageContainer.appendChild(content.img);
+			     content.fileRow.appendChild(content.imageContainer);
+			     content.fileRow.appendChild(content.nameContainer);
+			     content.bookmarks.appendChild(content.fileRow);
+		   }
+                 }  
+	       });
         // TODO: Generate default bookmarks + connected devices + etc
-    }
 }
 // All done declaring vars & functions and managing options! Initialize the file list at the starting directory.
 update();

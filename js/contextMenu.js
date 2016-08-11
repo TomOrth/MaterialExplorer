@@ -31,7 +31,7 @@ menu.append(new MenuItem({label: 'Add To Bookmarks', click(){
      choice.fileRow.appendChild(choice.nameContainer);
      choice.bookmarks.appendChild(choice.fileRow);
      bookmarks.items.push(choice.content);
-     fse.writeFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialbookmarks.json', JSON.stringify(bookmarks));
+     fse.writeFileSync("." + slash + '.materialbookmarks.json', JSON.stringify(bookmarks));
 }}));
 var fileList = document.getElementById("files");
 fileList.addEventListener('contextmenu', (e) => {
