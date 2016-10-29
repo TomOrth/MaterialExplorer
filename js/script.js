@@ -29,7 +29,7 @@ var currentDir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HO
 // Create currentDir: directory currently being viewed.
 
 // Generate list of files in current directory.
-function fileList(dir) {
+function listFiles(dir) {
 	// Read directory for list of files
 	fse.readdir(dir, function(err, file) {
 		pg.title.innerHTML = dir;
@@ -85,7 +85,7 @@ onclick = function(e) {
 	} else if (e.target === pg.up && currentDir.length > 1) { // If they clicked on up and directory is not /
 		currentDir = currentDir.substring(0, currentDir.length - 1);
 		currentDir = currentDir.substring(0, currentDir.lastIndexOf(slash) + 1);
-		fileList(currentDir);
+		listFiles(currentDir);
 	} else if (e.target.parentNode.tagName === 'TBODY' || e.target.tagName === 'IMG') { // Did user click on a file/folder?
 		// If user clicked on a file/folder
 		// Get the name of the file/folder they clicked on.
@@ -98,7 +98,7 @@ onclick = function(e) {
 			// Add that folder's name to the end of the current path
 			currentDir += name + slash;
 			// Regenerate the list for the new directory
-			fileList(currentDir);
+			listFiles(currentDir);
 		}
 	}
 };
@@ -123,7 +123,6 @@ ipc.on('update', function(event, arg) {
 });
 
 function loadBookmarks() {
-	
 		//dataJSON = JSON.parse(fse.readFileSync(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.materialbookmarks.json', "utf8")) + "";
                fse.readFile("." + slash + '.materialbookmarks.json', function(err, data){
                    if(!err){
@@ -144,12 +143,12 @@ function loadBookmarks() {
 			     content.fileRow.appendChild(content.nameContainer);
 			     content.bookmarks.appendChild(content.fileRow);
 		   }
-                 }  
+                 }
 	       });
         // TODO: Generate default bookmarks + connected devices + etc
 }
 // All done declaring vars & functions and managing options! Initialize the file list at the starting directory.
 update();
 loadBookmarks();
-fileList(currentDir);
+listFiles(currentDir);
 // TODO: Make this work
