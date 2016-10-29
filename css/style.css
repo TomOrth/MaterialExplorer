@@ -114,3 +114,10 @@ td:nth-child(4) {
     width: 30px;
     cursor: pointer;
 }
+#bookmarksColumn {
+    position: fixed;
+	width: 250px;
+}
+#filesColumn {
+	margin-left: 250px;
+}
