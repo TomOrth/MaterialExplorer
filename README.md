@@ -19,7 +19,7 @@ While in `MaterialExplorer` directory, run
     npm start
 
 ## Authors
-* [Tom Orth](https://github.com/atf1999)
+* [Tom Orth](https://github.com/TomOrth)
 * [Erik Boesen](https://github.com/ErikBoesen)
 
 ## License
