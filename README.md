@@ -3,7 +3,8 @@ Gorgeous material design file browser. Written using [Electron](http://electron.
 
 Get the newest compiled version [here](http://github.com/atf1999/MaterialExplorer/releases)!
 
-TODO: Screenshots
+Screenshot:
+![screenshot](screenshot.jpg)
 
 ## Development dependencies
 * [Node.js](https://nodejs.org)
